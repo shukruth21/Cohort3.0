@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: aliceblue;
+}
+
+.todolist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px; /* Compact layout */
+    border: 2px solid #000;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: antiquewhite;
+}
+
+.todolist div.input-container {
+    margin-bottom: 10px;
+    display: flex; /* Ensure input and button are on the same line */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ensure the div takes full width */
+}
+
+/* Style for the input field */
+.todolist input[type="text"] {
+    flex: 1; /* Allow the input to take up available space */
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+/* Style for the Add Todo button */
+.todolist button {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.todolist button:hover {
+    background-color: #45a049;
+}
+
+#root {
+    width: 100%; /* Ensure todos take full width */
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* Stack todos vertically */
+    gap: 10px; /* Add spacing between todos */
+}
+
+/* Style for each todo item */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+/* Style for the done button */
+.done-button {
+    padding: 5px 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.done-button:hover {
+    background-color: #45a049;
+}
+
+/* Style for completed todos */
+.completed {
+    text-decoration: line-through; /* Adds a line through the text */
+    color: gray; /* Makes the text less visible */
+    opacity: 0.6; /* Reduces the visibility */
+}
