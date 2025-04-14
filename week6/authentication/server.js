@@ -21,7 +21,7 @@ app.post('/signup',function(req,res){
 app.post('/signin',function(req,res){
     
     const username=req.body.username
-    const password=req.body.pwd
+    const password=req.body.password
     const user = users.find(user=> user.username ===username && user.password=== password)
     if(user){
         const token=jwt.sign({
