@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        input, button { margin: 10px 0; padding: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Todo App</h2>
+        <input id="todo-title" type="text" placeholder="Enter todo title">
+        <button onclick="createTodo()">Add Todo</button>
+        <ul id="todo-list"></ul>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <script>
+        async function fetchTodos() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You are not logged in. Redirecting to Sign In.");
+                window.location.href = "signin.html";
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/todos", {
+                headers: { "Content-Type": "application/json", token }
+            });
+            const data = await response.json();
+            const todoList = document.getElementById("todo-list");
+            todoList.innerHTML = "";
+            data.todos.forEach(todo => {
+                const li = document.createElement("li");
+                li.textContent = `${todo.title} - ${todo.isDone ? "Done" : "Pending"}`;
+                li.innerHTML += ` <button onclick="markTodo(${todo.id})">Mark</button>`;
+                li.innerHTML += ` <button onclick="deleteTodo(${todo.id})">Delete</button>`;
+                todoList.appendChild(li);
+            });
+        }
+
+        async function createTodo() {
+            const title = document.getElementById("todo-title").value;
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You are not logged in. Redirecting to Sign In.");
+                window.location.href = "signin.html";
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", token },
+                body: JSON.stringify({ title })
+            });
+            const data = await response.json();
+            alert(data.message);
+            document.getElementById("todo-title").value = ""; // Clear the input field
+            fetchTodos(); // Refresh the todo list
+        }
+
+        async function markTodo(id) {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You are not logged in. Redirecting to Sign In.");
+                window.location.href = "signin.html";
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/mark", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", token },
+                body: JSON.stringify({ id })
+            });
+            const data = await response.json();
+            alert(data.message);
+            fetchTodos(); // Refresh the todo list
+        }
+
+        async function deleteTodo(id) {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You are not logged in. Redirecting to Sign In.");
+                window.location.href = "signin.html";
+                return;
+            }
+
+            const response = await fetch("http://localhost:3000/delete", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json", token },
+                body: JSON.stringify({ id })
+            });
+            const data = await response.json();
+            alert(data.message);
+            fetchTodos(); // Refresh the todo list
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            alert("Logged out successfully");
+            window.location.href = "signin.html";
+        }
+
+        fetchTodos(); // Fetch and display todos when the page loads
+    </script>
+</body>
+</html>
