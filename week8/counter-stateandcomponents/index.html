@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter-app</title>
+</head>
+<body>
+    <h1>Counter APP</h1>
+    <div id="counter"></div>
+
+    <script>
+        let state={
+            count: 0
+        }
+        function onButtonPress(){
+            state.count++
+            buttonComponentRerender()
+        }
+        function buttonComponentRerender(){
+            document.getElementById("counter").innerHTML=""
+            const button = document.createElement("button")
+            button.innerHTML=`Count: ${state.count}`
+            button.setAttribute("onclick","onButtonPress()")
+            document.getElementById("counter").appendChild(button)
+        }
+        buttonComponentRerender()
+    </script>
+
+</body>
+</html>
